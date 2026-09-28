@@ -3,25 +3,29 @@
 
 using namespace std;
 
-// Struktura reprezentuj¹ca pojedynczy element (wagonik) w kolejce
+// Struktura reprezentujaca jeden element (wagonik) kolejki
 struct kolejka
 {
     int a;
     kolejka* next;
 };
 
-// Klasa zarz¹dzaj¹ca kolejk¹ oraz operacjami na niej
+// Klasa odpowiedzialna za obsluge kolejki
 class sortowanie
 {
 private:
     kolejka* poczatek;
-    int liczba_elementow; // Zmienna przechowuj¹ca informacjê, ile jest liczb w kolejce
+    int liczba_elementow;
 
 public:
-    // Konstruktor inicjalizuj¹cy pocz¹tek wartoœci¹ NULL oraz licznik elementów na 0
-    sortowanie() : poczatek(nullptr), liczba_elementow(0) {}
+    // Konstruktor
+    sortowanie()
+    {
+        poczatek = nullptr;
+        liczba_elementow = 0;
+    }
 
-    // Destruktor zwalniaj¹cy pamiêæ zajmowan¹ przez wszystkie wêz³y kolejki
+    // Destruktor
     ~sortowanie()
     {
         kolejka* temp;
@@ -34,58 +38,58 @@ public:
         }
     }
 
-    // Funkcja wczytuj¹ca liczby z pliku liczby.txt
+    // Wczytywanie liczb z pliku liczby.txt
     void wczytaj_z_pliku()
     {
         ifstream plik("liczby.txt");
 
-        if (!plik.is_open())
+        if (!plik)
         {
-            cout << "Nie znaleziono pliku liczby.txt!" << endl;
-            cout << "Sprawdz, czy plik znajduje sie w odpowiednim folderze." << endl;
+            cout << "Nie mozna otworzyc pliku liczby.txt!" << endl;
             return;
         }
 
-        int ile;
-        plik >> ile; // Wczytanie liczby elementów
+        int liczba;
 
-        kolejka* ostatni = nullptr;
-        int wczytane = 0;
-
-        for (int i = 0; i < ile; i++)
+        // Wczytywanie wszystkich liczb z pliku
+        while (plik >> liczba)
         {
-            int liczba;
-
-            if (!(plik >> liczba))
-            {
-                cout << "Blad odczytu liczby z pliku!" << endl;
-                break;
-            }
-
+            // Tworzenie nowego wagonika
             kolejka* nowy = new kolejka;
+
             nowy->a = liczba;
             nowy->next = nullptr;
 
+            // Jezeli kolejka jest pusta
             if (poczatek == nullptr)
             {
                 poczatek = nowy;
             }
             else
             {
+                // Szukanie ostatniego wagonika
+                kolejka* ostatni = poczatek;
+
+                while (ostatni->next != nullptr)
+                {
+                    ostatni = ostatni->next;
+                }
+
+                // Dolaczenie nowego wagonika na koniec
                 ostatni->next = nowy;
             }
 
-            ostatni = nowy;
-            wczytane++;
+            // Zwiekszenie licznika elementow
+            liczba_elementow++;
         }
 
-        liczba_elementow = wczytane;
         plik.close();
 
         cout << "Wczytano " << liczba_elementow << " liczb." << endl;
     }
 
-    // Funkcja sortowania b¹belkowego rosn¹co przez przepinanie wskaŸników (wagoników) z licznikiem iteracji 'i'
+    // Sortowanie babelkowe rosnaco
+    // Sortowanie odbywa sie przez przepinanie wskaznikow
     void sortowanie_babelkowe()
     {
         if (poczatek == nullptr || poczatek->next == nullptr)
@@ -95,11 +99,11 @@ public:
         }
 
         bool zamiana;
-        int i = 0; // Licznik wykonanych przejœæ b¹belkowych
 
         do
         {
             zamiana = false;
+
             kolejka* poprzedni = nullptr;
             kolejka* aktualny = poczatek;
 
@@ -107,12 +111,14 @@ public:
             {
                 kolejka* nastepny = aktualny->next;
 
-                // Jeœli aktualny element jest wiêkszy od nastêpnego -> przestawiamy wskaŸniki (wpinamy wagonik)
+                // Jezeli aktualny element jest wiekszy od nastepnego,
+                // przepinamy wagoniki
                 if (aktualny->a > nastepny->a)
                 {
                     aktualny->next = nastepny->next;
                     nastepny->next = aktualny;
 
+                    // Jezeli przepinamy pierwszy element
                     if (poprzedni == nullptr)
                     {
                         poczatek = nastepny;
@@ -132,19 +138,17 @@ public:
                 }
             }
 
-            i++; // Zwiêkszamy licznik przejœæ (iteracji)
-
         } while (zamiana);
 
-        cout << "Sortowanie zakonczone. Liczba przejsc petli (i) = " << i << endl;
+        cout << "Sortowanie zakonczone." << endl;
     }
 
-    // Funkcja zapisuj¹ca posortowane liczby do pliku zapisane.txt
+    // Zapisywanie liczb do pliku zapisane.txt
     void zapisz_do_pliku()
     {
         ofstream plik("zapisane.txt");
 
-        if (!plik.is_open())
+        if (!plik)
         {
             cout << "Nie mozna utworzyc pliku zapisane.txt!" << endl;
             return;
@@ -159,10 +163,11 @@ public:
         }
 
         plik.close();
+
         cout << "Zapisano liczby do pliku zapisane.txt." << endl;
     }
 
-    // Funkcja wypisuj¹ca liczby w konsoli
+    // Wypisywanie liczb w konsoli
     void wypisz()
     {
         if (poczatek == nullptr)
@@ -182,21 +187,17 @@ public:
         }
 
         cout << endl;
+        cout << "Liczba elementow: " << liczba_elementow << endl;
     }
 };
 
-// G³ówna funkcja programu z menu typu switch-case
+
 int main()
 {
-    // Ustawienie poliskich znaków w konsoli (opcjonalnie)
-    setlocale(LC_ALL, "Polish");
-
+    // Utworzenie obiektu klasy sortowanie
     sortowanie sort;
 
-    cout << "Program: SORTOWANIE W KOLEJCE" << endl;
-    cout << "=============================" << endl;
-
-    // Automatyczne wczytanie danych przy starcie programu
+    // Wczytanie liczb z pliku
     sort.wczytaj_z_pliku();
 
     int wybor;
@@ -204,13 +205,12 @@ int main()
     do
     {
         cout << endl;
-        cout << "========= MENU =========" << endl;
         cout << "1. Wypisz liczby" << endl;
         cout << "2. Sortowanie babelkowe" << endl;
         cout << "3. Zapisz do pliku" << endl;
         cout << "0. Wyjscie" << endl;
-        cout << "========================" << endl;
         cout << "Wybierz opcje: ";
+
         cin >> wybor;
 
         switch (wybor)
@@ -228,11 +228,11 @@ int main()
                 break;
 
             case 0:
-                cout << "Koniec programu. Do widzenia!" << endl;
+                cout << "Koniec programu." << endl;
                 break;
 
             default:
-                cout << "Nieprawidlowy wybor! Wybierz opcje od 0 do 3." << endl;
+                cout << "Nieprawidlowy wybor!" << endl;
         }
 
     } while (wybor != 0);

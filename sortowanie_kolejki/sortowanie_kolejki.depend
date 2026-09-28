@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1790578366 source:c:\3tp\piasd\kolejki-sortowanie\sortowanie_kolejki\main.cpp
+	<iostream>
+	<fstream>
+

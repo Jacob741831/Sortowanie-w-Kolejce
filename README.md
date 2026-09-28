@@ -1,18 +1,18 @@
-SORTOWANIE W KOLEJCE C++
+#SORTOWANIE W KOLEJCE C++
 
-Opis ogólny
+##Opis ogólny
 
 Program napisany w języku C++ służy do odczytu ciągu liczb z pliku tekstowego, przechowywania ich w dynamicznej strukturze danych typu kolejka (lista powiązana), sortowania elementów w porządku rosnącym za pomocą algorytmu bąbelkowego opartego na bezpośrednim przepinaniu wskaźników (bez użycia funkcji zamiany wartości swap), a także do wypisywania wyników na konsolę oraz zapisywania ich z powrotem do pliku.
 
-Opis funkcji w programie
+##Opis funkcji w programie
 
-Struktura kolejka
+###Struktura kolejka
 
 Reprezentuje pojedynczy element (tzw. "wagonik") w strukturze kolejki.
 
 Zawiera pole całkowite a (przechowujące wartość liczbową) oraz wskaźnik next wskazujący na kolejny element w kolejce.
 
-Klasa sortowanie
+###Klasa sortowanie
 
 Grupuje zmienne oraz operacje związane z zarządzaniem dynamiczną kolejką.
 

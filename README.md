@@ -1,29 +1,265 @@
-#SORTOWANIE W KOLEJCE C++
+Sortowanie liczb za pomocą kolejki
 
-##Opis ogólny
+Program napisany w języku C++, którego zadaniem jest wczytanie liczb z pliku tekstowego, przechowywanie ich w strukturze jednokierunkowej oraz posortowanie metodą sortowania bąbelkowego.
 
-Program napisany w języku C++ służy do odczytu ciągu liczb z pliku tekstowego, przechowywania ich w dynamicznej strukturze danych typu kolejka (lista powiązana), sortowania elementów w porządku rosnącym za pomocą algorytmu bąbelkowego opartego na bezpośrednim przepinaniu wskaźników (bez użycia funkcji zamiany wartości swap), a także do wypisywania wyników na konsolę oraz zapisywania ich z powrotem do pliku.
+Program wykorzystuje dynamicznie tworzoną strukturę danych przypominającą kolejkę, w której każdy element przechowuje jedną liczbę oraz wskaźnik do następnego elementu.
 
-##Opis funkcji w programie
+Funkcjonalności
 
-###Struktura kolejka
+Program umożliwia:
 
-Reprezentuje pojedynczy element (tzw. "wagonik") w strukturze kolejki.
+wczytanie liczb z pliku liczby.txt,
 
-Zawiera pole całkowite a (przechowujące wartość liczbową) oraz wskaźnik next wskazujący na kolejny element w kolejce.
+wyświetlenie wszystkich liczb znajdujących się w kolejce,
 
-###Klasa sortowanie
+posortowanie liczb rosnąco metodą bąbelkową,
 
-Grupuje zmienne oraz operacje związane z zarządzaniem dynamiczną kolejką.
+zapisanie wyników do pliku zapisane.txt,
 
-Konstruktor sortowanie(): Inicjalizuje wskaźnik początkowy poczatek wartością NULL.
+sprawdzenie liczby elementów znajdujących się w kolejce,
 
-Destruktor ~sortowanie(): Odpowiada za poprawne zwolnienie pamięci (usuwanie węzłów) po zakończeniu działania obiektu.
+obsługę programu za pomocą prostego menu tekstowego.
 
-wczytaj_z_pliku(): Otwiera plik liczby.txt, odczytuje pierwszą liczbę określającą ilość elementów, a następnie w pętli pobiera kolejne wartości, tworzy nowe węzły i dołącza je do końca kolejki.
+Wykorzystane technologie
 
-sortowanie_babelkowe(): Sortuje elementy rosnąco. Modyfikuje bezpośrednio powiązania wskaźników (next) między węzłami w trakcie sortowania bąbelkowego zamiast kopiować wartości.
+C++
 
-zapisz_do_pliku(): Przechodzi przez całą kolejkę i zapisuje aktualny porządek liczb do pliku wyjściowego zapisane.txt.
+biblioteka iostream – obsługa wejścia i wyjścia,
 
-wypisz(): Wyświetla zawartość wszystkich elementów aktualnie znajdujących się w kolejce na ekranie konsoli.
+biblioteka fstream – obsługa plików,
+
+dynamiczna alokacja pamięci (new / delete),
+
+jednokierunkowa struktura danych,
+
+sortowanie bąbelkowe.
+
+Struktura danych
+
+Każdy element kolejki jest reprezentowany przez strukturę:
+
+struct kolejka
+{
+    int a;
+    kolejka* next;
+};
+
+
+Element składa się z:
+
+a – liczby całkowitej,
+
+next – wskaźnika na następny element kolejki.
+
+Klasa sortowanie przechowuje:
+
+kolejka* poczatek;
+int liczba_elementow;
+
+
+poczatek wskazuje na pierwszy element kolejki, natomiast liczba_elementow przechowuje liczbę wszystkich elementów.
+
+Wczytywanie danych
+
+Program automatycznie próbuje odczytać liczby z pliku:
+
+liczby.txt
+
+
+Liczby mogą znajdować się w osobnych wierszach lub być oddzielone spacjami.
+
+Przykładowa zawartość pliku:
+
+45
+12
+78
+3
+19
+7
+32
+
+
+Podczas wczytywania każda liczba jest umieszczana w nowym elemencie struktury.
+
+Sortowanie
+
+Do sortowania wykorzystywany jest algorytm sortowania bąbelkowego.
+
+Program porównuje sąsiednie elementy. Jeżeli pierwszy element jest większy od drugiego, elementy są zamieniane miejscami.
+
+W tym programie zamiana odbywa się poprzez przepinanie wskaźników, a nie przez zamianę wartości znajdujących się w elementach.
+
+Przykład:
+
+45 12 78 3 19
+
+
+po posortowaniu:
+
+3 12 19 45 78
+
+
+Sortowanie odbywa się rosnąco.
+
+Złożoność
+
+Dla sortowania bąbelkowego:
+
+średnia złożoność czasowa: O(n²),
+
+pesymistyczna złożoność czasowa: O(n²),
+
+najlepszy przypadek: O(n) – gdy dane są już posortowane,
+
+złożoność pamięciowa: O(1) dodatkowej pamięci.
+
+Zapisywanie wyników
+
+Posortowane liczby można zapisać do pliku:
+
+zapisane.txt
+
+
+Każda liczba zostanie zapisana w osobnym wierszu.
+
+Przykładowa zawartość:
+
+3
+7
+12
+19
+32
+45
+78
+
+Menu programu
+
+Po uruchomieniu programu wyświetlane jest menu:
+
+1. Wypisz liczby
+2. Sortowanie babelkowe
+3. Zapisz do pliku
+0. Wyjscie
+Wybierz opcje:
+
+Opcja 1 – Wypisz liczby
+
+Wyświetla wszystkie liczby znajdujące się aktualnie w kolejce oraz ich liczbę.
+
+Przykład:
+
+Liczby w kolejce: 45 12 78 3 19
+Liczba elementow: 5
+
+Opcja 2 – Sortowanie bąbelkowe
+
+Uruchamia sortowanie liczb rosnąco.
+
+Po zakończeniu wyświetlany jest komunikat:
+
+Sortowanie zakonczone.
+
+Opcja 3 – Zapisz do pliku
+
+Zapisuje aktualną zawartość kolejki do pliku zapisane.txt.
+
+Opcja 0 – Wyjście
+
+Kończy działanie programu.
+
+Zarządzanie pamięcią
+
+Elementy kolejki są tworzone dynamicznie za pomocą operatora new.
+
+Przykładowo:
+
+kolejka* nowy = new kolejka;
+
+
+Po zakończeniu działania obiektu klasy sortowanie wywoływany jest destruktor, który usuwa wszystkie elementy kolejki:
+
+delete temp;
+
+
+Dzięki temu pamięć zaalokowana dynamicznie jest zwalniana.
+
+Obsługa błędów
+
+Program sprawdza, czy można otworzyć plik liczby.txt.
+
+Jeżeli plik nie istnieje lub nie można go otworzyć, wyświetlany jest komunikat:
+
+Nie mozna otworzyc pliku liczby.txt!
+
+
+Program sprawdza również możliwość utworzenia pliku zapisane.txt.
+
+Wymagania
+
+Do uruchomienia programu potrzebny jest:
+
+kompilator obsługujący C++,
+
+np. g++, MinGW lub Visual Studio,
+
+plik liczby.txt znajdujący się w katalogu uruchamianego programu.
+
+Kompilacja
+
+Jeżeli plik z kodem nazywa się main.cpp, można skompilować program za pomocą:
+
+g++ main.cpp -o sortowanie
+
+
+Następnie program można uruchomić poleceniem:
+
+Windows
+sortowanie.exe
+
+Linux / macOS
+./sortowanie
+
+Przykładowe użycie
+
+Plik liczby.txt:
+
+10
+5
+23
+1
+17
+8
+
+
+Po uruchomieniu i wybraniu opcji 1:
+
+Liczby w kolejce: 10 5 23 1 17 8
+Liczba elementow: 6
+
+
+Po wybraniu opcji 2:
+
+Sortowanie zakonczone.
+
+
+Ponowne wybranie opcji 1:
+
+Liczby w kolejce: 1 5 8 10 17 23
+Liczba elementow: 6
+
+
+Po wybraniu opcji 3 dane zostaną zapisane do zapisane.txt.
+
+Autor
+
+Projekt wykonany w języku C++ w ramach ćwiczenia dotyczącego:
+
+dynamicznych struktur danych,
+
+wskaźników,
+
+obsługi plików,
+
+sortowania bąbelkowego,
+
+zarządzania pamięcią dynamiczną.

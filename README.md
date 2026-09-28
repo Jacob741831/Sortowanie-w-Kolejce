@@ -1,7 +1,3 @@
-Jasne — poniżej masz gotowy `README.md` opisujący działanie programu, strukturę kodu, pliki wejściowe/wyjściowe i sposób uruchomienia.
-
- README.md
-
 # Sortowanie liczb za pomocą kolejki
 
  Program napisany w języku **C++**, którego zadaniem jest wczytanie liczb z pliku tekstowego, przechowywanie ich w strukturze jednokierunkowej oraz posortowanie metodą **sortowania bąbelkowego**.
@@ -271,7 +267,7 @@ Liczba elementow: 6
 
  Projekt wykonany w języku **C++** w ramach ćwiczenia dotyczącego:
 
- - dynamicznych struktur danych,
+- dynamicznych struktur danych,
 - wskaźników,
 - obsługi plików,
 - sortowania bąbelkowego,
